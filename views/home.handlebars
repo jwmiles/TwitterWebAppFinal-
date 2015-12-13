@@ -1,0 +1,136 @@
+{{#if user}}
+
+<h1 style="font-family: Futura">Twitter API Web Application</h1>
+
+
+
+<form action="/" method="POST">
+  <div>
+   
+    <label style="font-family: Futura">
+      Search keywords: <br>
+      <input type="text" name="match">
+    </label>
+	<br><br><br>
+	
+	  <div>
+	 
+		
+		<label style="font-family: Futura">
+       Select a language<br>
+    </label>
+	  	
+	<select name = "lang">
+		<option value=""></option>
+	  <option value="en">English</option>
+    <option value="fr">French</option>
+    <option value="de">German</option>
+    <option value="it">Italian</option>
+	  <option value="es">Spanish</option> 	
+	</select>
+
+<br><br><br>
+
+    <label style="font-family: Futura">
+       Choose your result type<br>
+    </label> 
+     
+  <select name = "resultType">
+    <option value=""></option>
+    <option value="recent">Recent</option>
+    <option value="popular">Popular</option>
+    <option value="mixed">Mixed</option>  
+  </select>
+	
+	<br><br><br>
+	<label style="font-family: Futura">
+	Select location<br>
+	  </label>	
+		<select name = "country">
+		<option value=""></option>
+	<option value="35.2799600,-80.9545120,50mi">Charlotte</option>
+	<option value="39.858648,-99.69866,1768.6km">America</option>
+	<option value="46.907679,2.470958,417.49km">France</option>
+	<option value="51.085608,10.319895,209.51mi">Germany</option>
+	<option value="42.808529,12.560349,305km">Italy</option>
+	<option value="40.085967,-2.970021,399.02km">Spain</option>
+	</select>
+	
+	<br><br><br>
+
+  
+  <label style="font-family: Futura">
+  Enter end date : (7 days span)
+  </label>
+  <input type="date" name="endDate"<br>
+</form>
+	
+  </div>
+  <input type="submit" value="Submit">
+
+  <br><br><br>
+
+</form>
+
+<hr />
+
+
+{{#if results}}
+
+  <h2>Query</h2>
+  <div><span class="label">query:</span> {{ search.query }}</div>
+  <en><span class="label">completed in:</span> {{ search.completed_in }}</en>
+  <h2>Results</h2>
+
+  <ul id='results'>
+  {{#each results}}  
+  
+    <li>
+      <div class='heading'>
+        <div><span class="label">Created on:</span> {{ this.created_at }}</div>
+        <div><span class="label">Author:</span> {{ this.user.screen_name }}</div>
+        <div><span class="label">Language:</span> {{ metadata.iso_language_code }}</div>
+      </div>
+	 
+
+      <div><span class="label">Message:</span> <p>{{ this.text }} </p></div>
+
+      <div><span class="label">Retweets:</span> {{ this.retweet_count }} | <span class="label">Favorites:</span> {{ this.favorite_count }}</div>
+	 
+      <div>
+      {{#if entities.hashtags}}
+        <span class="label">Hashtags:</span>
+        {{#each entities.hashtags}}
+        <span>#{{this.text}} </span>
+        {{/each}}
+		
+      {{else}}
+        <span class="label">No Hashtags</span>
+      {{/if}}
+      </div>
+    </li>
+  {{/each}}
+   <span class="label">Total Tweets returned:{{this.results.length}} <br>
+
+   
+	
+  
+  </ul>
+  
+{{else}}
+  <p align="center"">Search for matching words above...</p>
+{{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{/if}}

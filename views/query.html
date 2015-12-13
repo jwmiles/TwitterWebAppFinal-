@@ -1,0 +1,184 @@
+<h1 style="font-family: Futura">Twitter API Web Application</h1>
+
+
+
+<form action="/" method="POST">
+  <div>
+   
+    <label style="font-family: Futura">
+      Search keywords: <br>
+      <input type="text" name="match">
+    </label>
+	<br><br><br>
+	
+	  <div>
+	 
+		
+		<label style="font-family: Futura">
+       Select a language<br>
+    </label>
+	  	
+	<select name = "lang">
+		<option value=""></option>
+	  <option value="en">English</option>
+    <option value="fr">French</option>
+    <option value="de">German</option>
+    <option value="it">Italian</option>
+	  <option value="es">Spanish</option> 	
+	</select>
+
+<br><br><br>
+
+    <label style="font-family: Futura">
+       Choose your result type<br>
+    </label> 
+     
+  <select name = "resultType">
+    <option value=""></option>
+    <option value="recent">Recent</option>
+    <option value="popular">Popular</option>
+    <option value="mixed">Mixed</option>  
+  </select>
+	
+	<br><br><br>
+	<label style="font-family: Futura">
+	Select location<br>
+	  </label>	
+		<select name = "country">
+		<option value=""></option>
+	<option value="35.2799600,-80.9545120,50mi">Charlotte</option>
+	<option value="39.858648,-99.69866,1768.6km">America</option>
+	<option value="46.907679,2.470958,417.49km">France</option>
+	<option value="51.085608,10.319895,209.51mi">Germany</option>
+	<option value="42.808529,12.560349,305km">Italy</option>
+	<option value="40.085967,-2.970021,399.02km">Spain</option>
+	</select>
+	
+	<br><br><br>
+
+  
+  <label style="font-family: Futura">
+  Enter end date : (7 days span)
+  </label>
+  <input type="date" name="endDate"<br>
+</form>
+	
+  </div>
+  <input type="submit" value="Submit">
+
+  <br><br><br>
+
+</form>
+
+<hr />
+{{#if results}}
+
+<script>
+
+ switch({{ this.metadata.iso_language_code }}) {
+    case "en":
+       langArray[0]+=1;
+        break;
+    case "fr":
+        langArray[1]+=1;
+        break;
+    case "de":
+        langArray[2]+=1;
+        break;
+    case "it":
+        langArray[3]+=1;
+        break;
+    
+    default:
+    langArray[4]+=1;
+        
+}
+document.write(5+6);
+document.write({{ metadata.iso_language_code }});
+  </script>
+
+
+  <h2>Query</h2>
+  <div><span class="label">query:</span> {{ search.query }}</div>
+  <en><span class="label">completed in:</span> {{ search.completed_in }}</en>
+  <h2>Results</h2>
+
+  <ul id='results'>
+  {{#each results}}
+
+  
+
+  
+  
+    <li>
+      <div class='heading'>
+        <div><span class="label">Created on:</span> {{ this.created_at }}</div>
+        <div><span class="label">Author:</span> {{ this.user.screen_name }}</div>
+        <div><span class="label">Language:</span> {{ metadata.iso_language_code }}</div>
+      </div>
+	 
+
+      <div><span class="label">Message:</span> <p>{{ this.text }} </p></div>
+
+      <div><span class="label">Retweets:</span> {{ this.retweet_count }} | <span class="label">Favorites:</span> {{ this.favorite_count }}</div>
+	 
+      <div>
+      {{#if entities.hashtags}}
+        <span class="label">Hashtags:</span>
+        {{#each entities.hashtags}}
+        <span>#{{this.text}} </span>
+        {{/each}}
+		
+      {{else}}
+        <span class="label">No Hashtags</span>
+      {{/if}}
+      </div>
+    </li>
+  {{/each}}
+   <span class="label">Total Tweets returned:{{this.results.length}} <br>
+
+   <span class="label">Total German Results:<script>document.write(langArray[2])</script> 
+   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'Tweets');
+        data.addRows([
+          ['Germany', 5],
+          ['France', 1],
+          ['America', 1],
+          ['Spain', 1],
+          ['Canada eh', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'Tweets organized by country',
+                       'width':600,
+                       'height':400};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+	<div id="chart_div"></div>
+	
+  
+  </ul>
+  
+{{else}}
+  <p align="center"">Search for matching words above...</p>
+{{/if}}
